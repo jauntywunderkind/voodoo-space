@@ -1,0 +1,22 @@
+# wayland interfaces
+
+wl_display
+wl_registry
+wl_callback
+wl_compositor
+wl_shm_pool
+wl_shm
+wl_buffer
+wl_data_offer
+wl_data_source
+wl_data_device
+wl_data_device_manager
+xdg_shell
+wl_seat
+wl_pointer
+wl_keyboard
+wl_touch
+wl_output
+wl_region
+wl_subcompositor
+wl_subsurface

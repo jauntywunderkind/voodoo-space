@@ -1,0 +1,72 @@
+<html>
+<head>
+<script src="voodoo-space.js"></script>
+</head>
+
+<body id="body" venv="voodoo-env.json" vroot="voodoo:local:abe44f">
+
+<vdisplay id="display--top">
+</vdisplay>
+<vdisplay id="display--bottom" 
+</vdisplay>
+
+
+<vmount href="voodoo:local" path="local">
+<div vsurface path="./shared">local public scratch space</div>
+<div vsurface path="./${USER}">
+	local user space
+	<div vsurface path="./public">
+		public local user space
+	</div>
+</div>
+<link rel="application/vnd.vooodoo.mount+json" href="#example-header"></link>
+<link rel="application/vnd.vooodoo.mount+json" href="#example-main"></link>
+<link rel="application/vnd.vooodoo.mount+json" href="#example-footer"></link>
+
+
+<seat path="seat" default id="seat0">
+</seat>
+</vmount>
+
+<!-- bring in a portal of content from this webserver -->
+<vportal href="/voodoo-space-example" id="ex-content">
+<header vdisplay id="example-header">
+<h1>VoodooSpace Example</h1>
+<h4>Welcome <var>USER</var></h4>
+</header>
+
+<main vdisplay id="main">
+Hello welcome to VoodooSpace
+All is one
+</main>
+
+<footer vdisplay id="example-footer">
+VoodooWarez Tekgnosistemas
+</footer>
+</vmount>
+
+<vmount href="voodoo:local/~${USER}" path="local/${USER}">
+<vmount href="./public" path="./public">
+<div vsurface>local public scratch space</div>
+</vmount>
+<theinput path="./inbox" />
+</vmount>
+
+<!-- portal to a remote system -->
+<vportal href="https://yoyodyne.local/host">
+Remote yoyodyne portal: <vvar>HOSTNAME</vvar>
+</vportal>
+
+<!-- portal to personal storage on a remote system -->
+<vportal href="https://yoyodyne.local/~${USER}" seat="">
+<vdir vsurface path="./public">local public scratch space</vdir>
+</vportal>
+
+<main vdisplay id="main">
+</main>
+
+<div>
+</div>
+
+</body>
+</html>
