@@ -1,0 +1,4 @@
+* id maps to a default path/name, with -- expanding as "/"
+* path should fallback to name if name exists
+* venv needs to bidirect with css vars
+

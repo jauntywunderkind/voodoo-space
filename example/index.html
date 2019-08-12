@@ -2,71 +2,91 @@
 <head>
 <script src="voodoo-space.js"></script>
 </head>
-
 <body id="body" venv="voodoo-env.json" vroot="voodoo:local:abe44f">
 
-<vdisplay id="display--top">
-</vdisplay>
-<vdisplay id="display--bottom" 
-</vdisplay>
+<!-- multiple displays on screen at once" -->
+<!-- TODO: take up top/bottom half of screen" -->
+<vsurface id="surface--top" class="theme light" venv="light.json">
+light
+</vsurface>
+<vsurface id="surface--bottom" class="theme dark" venv="dark.json">
+dark
+</vsurface>
 
-
-<vmount href="voodoo:local" path="local">
-<div vsurface path="./shared">local public scratch space</div>
-<div vsurface path="./${USER}">
-	local user space
-	<div vsurface path="./public">
-		public local user space
-	</div>
-</div>
-<link rel="application/vnd.vooodoo.mount+json" href="#example-header"></link>
-<link rel="application/vnd.vooodoo.mount+json" href="#example-main"></link>
-<link rel="application/vnd.vooodoo.mount+json" href="#example-footer"></link>
-
-
-<seat path="seat" default id="seat0">
-</seat>
+<!-- index: mount the entire local space on screen -->
+<vsurface id="surface--index">
+<vmount href="voodoo:local" path="local"> <!-- mount href under path -->
+<vdir path="abe44f">
+<vdir path="surface" initial="collapsed">
+	<vsurface path="top" state="collapsed"/>
+	<vsurface path="bottom" state="collapsed"/>
+	<vsurface path="index" state="collapsed"/>
+	<vsurface path="user" state="collapsed"/>
+</vdir>
+<vdir path="display" initial="collapsed">
+	<vdisplay path="main" state=collapsed" />
+</vdir>
+</vdir>
 </vmount>
+</vsurface>
 
-<!-- bring in a portal of content from this webserver -->
-<vportal href="/voodoo-space-example" id="ex-content">
-<header vdisplay id="example-header">
+<!-- display with what we have so far -->
+<vdisplay id="display--main">
+<link rel="application/vnd.vooodoo.surface+json" href="#surface--top">
+<link rel="application/vnd.vooodoo.surface+json" href="#surface--bottom">
+<link rel="application/vnd.vooodoo.surface+json" href="#surface--index">
+</vdisplay>
+
+<!-- more inter-system & meta stuff -->
+
+<!-- portal in remote content -->
+<vportal href="/voodoo-space-example" id="portal--content">
+<header vsurface id="surface--header">
 <h1>VoodooSpace Example</h1>
-<h4>Welcome <var>USER</var></h4>
+<h4>Welcome <vvar>USER</vvar></h4>
 </header>
 
-<main vdisplay id="main">
+<main vdisplay id="surface--welcome">
 Hello welcome to VoodooSpace
 All is one
 </main>
 
-<footer vdisplay id="example-footer">
+<footer vdisplay id="surface-footer">
 VoodooWarez Tekgnosistemas
 </footer>
-</vmount>
+</vportal>
 
-<vmount href="voodoo:local/~${USER}" path="local/${USER}">
-<vmount href="./public" path="./public">
-<div vsurface>local public scratch space</div>
-</vmount>
-<theinput path="./inbox" />
-</vmount>
+<!-- some special places in local vroot (voodoo:local:abe44f) -->
+<div vsurface id="surface--special" vroot="/">
+<vdir path="shared"><span>local public scratch space</span></vdir>
+<vdir path="~${USER}">
+	<span>local user space</span></vdir>
+	<vdir path="public"><span>public local user space</span></vdir>
+</vdir>
+</div>
 
-<!-- portal to a remote system -->
-<vportal href="https://yoyodyne.local/host">
-Remote yoyodyne portal: <vvar>HOSTNAME</vvar>
+<!-- some special places in yoyodyne vroot -->
+<vportal vsurface id="portal--yoyodyne" href="https://yoyodyne.local">
+<vdir path="host">
+	<span>yoyodyne host data</span>
+	<span>hostname: <vvar>HOSTNAME</vvar></span>
+</vdir>
+<vdir path="shared"><span>yoyodyne public scratch space</span></vdir>
+<vdir path="~${USER}">
+	<span>yoyodyne user space</span></vdir>
+	<vdir path="public"><span>yoyodyne user public space</span></vdir>
+</vdir>
 </vportal>
 
 <!-- portal to personal storage on a remote system -->
-<vportal href="https://yoyodyne.local/~${USER}" seat="">
-<vdir vsurface path="./public">local public scratch space</vdir>
+<vportal id="portal--yoyodyne-local" href="https://yoyodyne.local/~${USER}/public">
+	<span>yoyodyne user public space</span>
 </vportal>
 
-<main vdisplay id="main">
-</main>
-
-<div>
-</div>
+<!-- vroot creates default seats when in interactive mode -->
+<!-- how does this integrate with various elements? -->
+<vseat id="seat--0">
+</vseat>
 
 </body>
 </html>
